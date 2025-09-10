@@ -4,6 +4,7 @@ import TouristDashboard from "./pages/tourist/touristDashboard"
 import TouristID from "./pages/tourist/TouristID"
 import TrackingPage from "./pages/tourist/touristTrackingPage"
 import { Route, Routes } from "react-router-dom"
+import PoliceDashboard from "./pages/police/PoliceDashboard"
 
 function App() {  
 
@@ -16,6 +17,7 @@ function App() {
           <Route path="/tourist/dashboard" element={<TouristDashboard/>} />
           <Route path="/tourist/id" element={<TouristID/>} />
           <Route path="/tourist/tracking" element={<TrackingPage/>} />
+          <Route path="/police/dashboard" element={<PoliceDashboard/>} />
         </Routes>
       </main>
     </div>
