@@ -14,24 +14,81 @@ export default function TopNav() {
   const isActive = (path) => location.pathname === path;
 
   return (
-    <header className="bg-white shadow-md sticky top-0 z-50">
-      <div className="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
+    <header className="sticky top-0 z-50 backdrop-blur-md bg-white/80 border-b">
+      <div className="max-w-7xl mx-auto px-5 py-3 flex items-center justify-between">
 
         {/* Logo */}
         <Link
           to="/"
-          className="font-bold text-xl text-blue-600 hover:text-blue-700 transition"
+          className="flex items-center gap-2 text-xl font-bold text-blue-600 hover:text-blue-700 transition"
         >
-          Smart Tourist Safety
+          🧭 Smart Tourist Safety
         </Link>
 
-        {/* Desktop Menu */}
-        <nav className="hidden md:flex space-x-6">
+        {/* Desktop Navigation */}
+        <nav className="hidden md:flex items-center gap-8">
           {navLinks.map((link) => (
             <Link
               key={link.path}
               to={link.path}
-              className={`text-sm font-medium transition ${
+              className={`relative text-sm font-medium transition ${
+                isActive(link.path)
+                  ? "text-blue-600"
+                  : "text-gray-700 hover:text-blue-600"
+              }`}
+            >
+              {link.label}
+
+              {/* Active underline */}
+              {isActive(link.path) && (
+                <span className="absolute left-0 -bottom-1 w-full h-[2px] bg-blue-600 rounded"></span>
+              )}
+            </Link>
+          ))}
+        </nav>
+
+        {/* Right Side Icons */}
+        <div className="hidden md:flex items-center gap-4">
+
+          {/* Notification */}
+          <button className="relative text-gray-600 hover:text-blue-600 transition">
+            🔔
+            <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs px-1 rounded-full">
+              3
+            </span>
+          </button>
+
+          {/* Login Button */}
+          <Link
+            to="/tourist/login"
+            className="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm hover:bg-blue-700 transition shadow"
+          >
+            Login
+          </Link>
+        </div>
+
+        {/* Mobile Menu Button */}
+        <button
+          className="md:hidden text-gray-700 text-2xl"
+          onClick={() => setMenuOpen(!menuOpen)}
+        >
+          {menuOpen ? "✕" : "☰"}
+        </button>
+      </div>
+
+      {/* Mobile Menu */}
+      <div
+        className={`md:hidden transition-all duration-300 overflow-hidden ${
+          menuOpen ? "max-h-60 border-t" : "max-h-0"
+        }`}
+      >
+        <div className="flex flex-col px-5 py-4 space-y-3 bg-white">
+          {navLinks.map((link) => (
+            <Link
+              key={link.path}
+              to={link.path}
+              onClick={() => setMenuOpen(false)}
+              className={`text-sm font-medium ${
                 isActive(link.path)
                   ? "text-blue-600"
                   : "text-gray-700 hover:text-blue-600"
@@ -40,38 +97,15 @@ export default function TopNav() {
               {link.label}
             </Link>
           ))}
-        </nav>
 
-        {/* Mobile Button */}
-        <button
-          className="md:hidden text-gray-700"
-          onClick={() => setMenuOpen(!menuOpen)}
-        >
-          ☰
-        </button>
-      </div>
-
-      {/* Mobile Menu */}
-      {menuOpen && (
-        <div className="md:hidden bg-white border-t">
-          <div className="flex flex-col px-4 py-2 space-y-2">
-            {navLinks.map((link) => (
-              <Link
-                key={link.path}
-                to={link.path}
-                onClick={() => setMenuOpen(false)}
-                className={`py-2 text-sm ${
-                  isActive(link.path)
-                    ? "text-blue-600 font-semibold"
-                    : "text-gray-700 hover:text-blue-600"
-                }`}
-              >
-                {link.label}
-              </Link>
-            ))}
-          </div>
+          <Link
+            to="/tourist/login"
+            className="bg-blue-600 text-white text-center py-2 rounded-lg hover:bg-blue-700 transition"
+          >
+            Login
+          </Link>
         </div>
-      )}
+      </div>
     </header>
   );
 }
